@@ -1,18 +1,20 @@
 # 🤖 AgentFoundry
 
-**AgentFoundry** is a meta-agent framework that reads human-defined specifications and forges executable agents from them.
-It demonstrates how structured reasoning, deterministic workflows, and modular tool bindings can be composed into auditable, real-world automation aligning with the principles of *Building Effective Agents*.
+**Project Summary for Recruiters:**
+AgentFoundry is an intelligent meta-agent framework that automatically transforms human-defined specifications into structured, executable AI workflows. It demonstrates practical expertise in agent architecture, workflow compilation, code generation, and safe automation  showing the ability to build scalable, explainable AI systems that align with enterprise standards for robustness and traceability.
+
+---
+
+**AgentFoundry** reads YAML-based specs, compiles them into canonical JSON and visual workflows, and can optionally generate runnable Python agents (`agent.py`, `run.py`). This project combines deterministic reasoning, modular design, and transparent code synthesis, following the principles of *Building Effective Agents*.
 
 ---
 
 ## 🚀 Overview
 
-AgentFoundry transforms **YAML based agent specifications** into two main artifacts:
+AgentFoundry transforms **YAML-based agent specifications** into two main artifacts:
 
 1. **Compiled Workflows** → canonical JSON + Mermaid diagrams.
-2. **Runnable Agents** → generated Python packages (`agent.py`, `run.py`) that execute those workflows end-to-end.
-
-This project is designed as a reproducible prototype for evaluating structured, safe, and composable meta-agent systems.
+2. **Runnable Agents** → generated Python packages that execute those workflows end-to-end.
 
 ---
 
@@ -21,8 +23,8 @@ This project is designed as a reproducible prototype for evaluating structured, 
 ### 1. Setup Environment
 
 ```bash
-# Create and activate a virtual environment
 python -m venv .venv
+# Activate the environment
 # macOS/Linux
 source .venv/bin/activate
 # Windows PowerShell
@@ -165,3 +167,6 @@ AgentFoundry/
 Released under the **MIT License** for educational and research use.
 © 2025 Oke Iyanuoluwa Enoch
 
+---
+
+> **AgentFoundry** — *Where Specifications Become Agents.*
