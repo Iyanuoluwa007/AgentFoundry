@@ -1,6 +1,6 @@
 # 🤖 AgentFoundry
 
-AgentFoundry is an intelligent meta-agent framework that automatically transforms human-defined specifications into structured, executable AI workflows. It demonstrates practical expertise in agent architecture, workflow compilation, code generation, and safe automation  showing the ability to build scalable, explainable AI systems that align with enterprise standards for robustness and traceability.
+AgentFoundry is an intelligent meta-agent framework that automatically transforms human defined specifications into structured, executable AI workflows. It demonstrates practical expertise in agent architecture, workflow compilation, code generation, and safe automation  showing the ability to build scalable, explainable AI systems that align with enterprise standards for robustness and traceability.
 
 ---
 
@@ -168,4 +168,4 @@ Released under the **MIT License** for educational and research use.
 
 ---
 
-> **AgentFoundry** — *Where Specifications Become Agents.*
+> **AgentFoundry**: *Where Specifications Become Agents.*
