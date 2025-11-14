@@ -1,0 +1,81 @@
+{
+  "name": "SupportTriage",
+  "description": "Classify a support message and emit a templated reply.",
+  "nodes": [
+    {
+      "id": "load_msg",
+      "kind": "task",
+      "tool": "pdf_reader",
+      "inputs": {
+        "path": "{{inputs.support_path}}"
+      },
+      "outputs": [
+        "text"
+      ],
+      "on_error": {},
+      "timeout": 30,
+      "retry": 0
+    },
+    {
+      "id": "classify",
+      "kind": "task",
+      "tool": "classifier",
+      "inputs": {
+        "text": "{{load_msg.text}}"
+      },
+      "outputs": [
+        "label"
+      ],
+      "on_error": {},
+      "timeout": 30,
+      "retry": 0
+    },
+    {
+      "id": "make_reply",
+      "kind": "task",
+      "tool": "reply",
+      "inputs": {
+        "label": "{{classify.label}}"
+      },
+      "outputs": [
+        "reply"
+      ],
+      "on_error": {},
+      "timeout": 30,
+      "retry": 0
+    }
+  ],
+  "edges": [
+    {
+      "from": "load_msg",
+      "to": "classify",
+      "when": null
+    },
+    {
+      "from": "classify",
+      "to": "make_reply",
+      "when": null
+    }
+  ],
+  "policies": {
+    "pii_redaction": false,
+    "allow_network": false
+  },
+  "tools": [
+    {
+      "id": "pdf_reader",
+      "type": "builtin.pdf_read",
+      "config": {}
+    },
+    {
+      "id": "classifier",
+      "type": "builtin.classify",
+      "config": {}
+    },
+    {
+      "id": "reply",
+      "type": "builtin.reply_template",
+      "config": {}
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+flowchart TD
+  load_pdf[load_pdf: task]
+  extract_fields[extract_fields: task]
+  validate[validate: evaluator]
+  load_pdf --> extract_fields
+  extract_fields --> validate

@@ -1,0 +1,45 @@
+agent:
+  name: "DataEnricher"
+  description: "Read a CSV and enrich the first row with mocked HTTP data."
+  inputs:
+    - name: csv_path
+      type: path
+  outputs:
+    - name: enriched
+      type: json
+
+tools:
+  - id: "csv"
+    type: "builtin.csv_read"
+  - id: "enrich"
+    type: "builtin.http_get"
+  - id: "validate"
+    type: "builtin.schema"
+    config:
+      schema: {"id":"string","info":"string"}
+
+workflow:
+  nodes:
+    - id: "read_csv"
+      kind: "task"
+      tool: "csv"
+      inputs: { path: "{{inputs.csv_path}}" }
+      outputs: ["rows"]
+
+    - id: "enrich_first"
+      kind: "task"
+      tool: "enrich"
+      inputs: { url: "https://api.example.com/item/{{read_csv.rows}}" }
+      outputs: ["json"]
+
+    - id: "validate"
+      kind: "evaluator"
+      tool: "validate"
+      inputs: { obj: "{{enrich_first.json}}" }
+      outputs: ["ok"]
+
+  edges:
+    - from: "read_csv"
+      to: "enrich_first"
+    - from: "enrich_first"
+      to: "validate"

@@ -1,0 +1,54 @@
+agent:
+  name: "InvoiceExtractor"
+  description: "Extract totals and supplier info from PDFs and validate against rules."
+  inputs:
+    - name: pdf_path
+      type: path
+  outputs:
+    - name: invoice_json
+      type: json
+
+tools:
+  - id: "pdf_reader"
+    type: "builtin.pdf_read"
+    config: {}
+  - id: "regex_extract"
+    type: "builtin.regex"
+    config:
+      patterns:
+        total: 'Total[: ]+([0-9]+\.[0-9]{2})'
+        supplier: 'Supplier[: ]+(.+)'
+  - id: "schema_validate"
+    type: "builtin.schema"
+    config:
+      schema: {"total":"number","supplier":"string"}
+
+workflow:
+  nodes:
+    - id: "load_pdf"
+      kind: "task"
+      tool: "pdf_reader"
+      inputs: { path: "{{inputs.pdf_path}}" }
+      outputs: ["text"]
+
+    - id: "extract_fields"
+      kind: "task"
+      tool: "regex_extract"
+      inputs: { text: "{{load_pdf.text}}" }
+      outputs: ["fields"]
+
+    - id: "validate"
+      kind: "evaluator"
+      tool: "schema_validate"
+      inputs: { obj: "{{extract_fields.fields}}" }
+      outputs: ["ok"]
+
+  edges:
+    - from: "load_pdf"
+      to: "extract_fields"
+    - from: "extract_fields"
+      to: "validate"
+
+policies:
+  pii_redaction: false
+  allow_network: false

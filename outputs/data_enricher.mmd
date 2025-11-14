@@ -1,0 +1,6 @@
+flowchart TD
+  read_csv[read_csv: task]
+  enrich_first[enrich_first: task]
+  validate[validate: evaluator]
+  read_csv --> enrich_first
+  enrich_first --> validate

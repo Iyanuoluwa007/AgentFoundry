@@ -1,0 +1,13 @@
+from .tools import registry
+from .policies import policies
+
+class Agent:
+    def __init__(self):
+        self.ctx = {"inputs": {}}
+
+    def run(self, **inputs):
+        self.ctx["inputs"].update(inputs)
+        {{ body }}
+        return self.ctx
+
+agent = Agent()

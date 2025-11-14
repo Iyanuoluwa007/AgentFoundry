@@ -1,0 +1,1 @@
+Supplier: ABC Ltd\nTotal: 1234567.89\nItems: 15

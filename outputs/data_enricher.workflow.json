@@ -1,0 +1,86 @@
+{
+  "name": "DataEnricher",
+  "description": "Read a CSV and enrich the first row with mocked HTTP data.",
+  "nodes": [
+    {
+      "id": "read_csv",
+      "kind": "task",
+      "tool": "csv",
+      "inputs": {
+        "path": "{{inputs.csv_path}}"
+      },
+      "outputs": [
+        "rows"
+      ],
+      "on_error": {},
+      "timeout": 30,
+      "retry": 0
+    },
+    {
+      "id": "enrich_first",
+      "kind": "task",
+      "tool": "enrich",
+      "inputs": {
+        "url": "https://api.example.com/item/{{read_csv.rows}}"
+      },
+      "outputs": [
+        "json"
+      ],
+      "on_error": {},
+      "timeout": 30,
+      "retry": 0
+    },
+    {
+      "id": "validate",
+      "kind": "evaluator",
+      "tool": "validate",
+      "inputs": {
+        "obj": "{{enrich_first.json}}"
+      },
+      "outputs": [
+        "ok"
+      ],
+      "on_error": {},
+      "timeout": 30,
+      "retry": 0
+    }
+  ],
+  "edges": [
+    {
+      "from": "read_csv",
+      "to": "enrich_first",
+      "when": null
+    },
+    {
+      "from": "enrich_first",
+      "to": "validate",
+      "when": null
+    }
+  ],
+  "policies": {
+    "pii_redaction": false,
+    "allow_network": false
+  },
+  "tools": [
+    {
+      "id": "csv",
+      "type": "builtin.csv_read",
+      "config": {}
+    },
+    {
+      "id": "enrich",
+      "type": "builtin.http_get",
+      "config": {}
+    },
+    {
+      "id": "validate",
+      "type": "builtin.schema",
+      "config": {
+        "schema": {
+          "id": "string",
+          "info": "string"
+        }
+      }
+    }
+  ]
+}

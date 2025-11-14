@@ -1,0 +1,43 @@
+agent:
+  name: "SupportTriage"
+  description: "Classify a support message and emit a templated reply."
+  inputs:
+    - name: support_path
+      type: path
+  outputs:
+    - name: triage
+      type: json
+
+tools:
+  - id: "pdf_reader"
+    type: "builtin.pdf_read"
+  - id: "classifier"
+    type: "builtin.classify"
+  - id: "reply"
+    type: "builtin.reply_template"
+
+workflow:
+  nodes:
+    - id: "load_msg"
+      kind: "task"
+      tool: "pdf_reader"
+      inputs: { path: "{{inputs.support_path}}" }
+      outputs: ["text"]
+
+    - id: "classify"
+      kind: "task"
+      tool: "classifier"
+      inputs: { text: "{{load_msg.text}}" }
+      outputs: ["label"]
+
+    - id: "make_reply"
+      kind: "task"
+      tool: "reply"
+      inputs: { label: "{{classify.label}}" }
+      outputs: ["reply"]
+
+  edges:
+    - from: "load_msg"
+      to: "classify"
+    - from: "classify"
+      to: "make_reply"

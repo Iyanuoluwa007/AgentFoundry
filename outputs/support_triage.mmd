@@ -1,0 +1,6 @@
+flowchart TD
+  load_msg[load_msg: task]
+  classify[classify: task]
+  make_reply[make_reply: task]
+  load_msg --> classify
+  classify --> make_reply
